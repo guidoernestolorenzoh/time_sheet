@@ -337,7 +337,7 @@ export default function TimeSheetPage() {
             onValueChange={onSearchChange}
           />
           <div className="flex gap-3">
-            <Chip className="bg-[#eeeeef] p-4 rounded-md border-none" size="sm" variant="flat">
+            <Chip className="bg-[#eeeeef] p-4 rounded-md border-none dark:text-white dark:bg-[#19191c]" size="sm" variant="flat">
               Duración Total: {totalDuration} horas
             </Chip>            
             <Dropdown>
