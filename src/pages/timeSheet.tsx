@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Modal,
   ModalContent,
@@ -26,10 +26,12 @@ import {
   Pagination,
   DatePicker,
   DateRangePicker,
+  Avatar
 } from "@heroui/react";
 import {parseZonedDateTime, parseAbsoluteToLocal} from "@internationalized/date";
 
 import DefaultLayout from "@/layouts/default";
+import { ChevronDownIcon, PlusIcon, SearchIcon, VerticalDotsIcon, RefreshIcon, SaveIcon } from '@/components/icons';
 
 export const columns = [
   {name: "ID", uid: "id", sortable: true},
@@ -37,7 +39,37 @@ export const columns = [
   {name: "HORA FIN", uid: "endTime", sortable: true},  
   {name: "TIPO ACTIVIDAD", uid: "activityType", sortable: true},
   {name: "PROYECTO", uid: "project", sortable: true},
+  { name: "LOCATION", uid: "location", sortable: true },
   {name: "ACTIONS", uid: "actions"},
+];
+
+export const users = [
+  {
+    id: 1,
+    name: "Tony Reichert",
+    role: "CEO",
+    team: "Management",
+    status: "active",
+    age: "29",
+    avatar: "https://d2u8k2ocievbld.cloudfront.net/memojis/male/1.png",
+    email: "tony.reichert@example.com",
+  },
+  {
+    id: 2,
+    name: "Zoey Lang",
+    role: "Tech Lead",
+    team: "Development",
+    status: "paused",
+    age: "25",
+    avatar: "https://d2u8k2ocievbld.cloudfront.net/memojis/female/1.png",
+    email: "zoey.lang@example.com",
+  },
+];
+
+export const locationOptions = [
+  { name: "Oficina", uid: "oficina" },
+  { name: "Sala de Reuniones", uid: "sala_reuniones" },
+  { name: "Remoto", uid: "remoto" },
 ];
 
 export const activityOptions = [
@@ -58,6 +90,7 @@ export const timeEntries = [
     endTime: "11:30",
     activityType: "development",
     project: "Proyecto A",
+    location: "Oficina",
   },
   {
     id: 2,
@@ -65,6 +98,7 @@ export const timeEntries = [
     endTime: "13:00",
     activityType: "meeting",
     project: "Proyecto B",
+    location: "Sala de Reuniones",
   },
   {
     id: 3,
@@ -72,6 +106,7 @@ export const timeEntries = [
     endTime: "17:30",
     activityType: "documentation",
     project: "Proyecto A",
+    location: "Remoto",
   },
 ];
 
@@ -92,113 +127,13 @@ const calculateTotalDuration = (entries) => {
 // En el componente TimeSheetPage, calcular la duración total
 const totalDuration = calculateTotalDuration(timeEntries);
 
-export const PlusIcon = ({size = 24, width, height, ...props}) => {
-  return (
-    <svg
-      aria-hidden="true"
-      fill="none"
-      focusable="false"
-      height={size || height}
-      role="presentation"
-      viewBox="0 0 24 24"
-      width={size || width}
-      {...props}
-    >
-      <g
-        fill="none"
-        stroke="currentColor"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={1.5}
-      >
-        <path d="M6 12h12" />
-        <path d="M12 18V6" />
-      </g>
-    </svg>
-  );
-};
-
-export const VerticalDotsIcon = ({size = 24, width, height, ...props}) => {
-  return (
-    <svg
-      aria-hidden="true"
-      fill="none"
-      focusable="false"
-      height={size || height}
-      role="presentation"
-      viewBox="0 0 24 24"
-      width={size || width}
-      {...props}
-    >
-      <path
-        d="M12 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0-6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 12c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
-        fill="currentColor"
-      />
-    </svg>
-  );
-};
-
-export const SearchIcon = (props) => {
-  return (
-    <svg
-      aria-hidden="true"
-      fill="none"
-      focusable="false"
-      height="1em"
-      role="presentation"
-      viewBox="0 0 24 24"
-      width="1em"
-      {...props}
-    >
-      <path
-        d="M11.5 21C16.7467 21 21 16.7467 21 11.5C21 6.25329 16.7467 2 11.5 2C6.25329 2 2 6.25329 2 11.5C2 16.7467 6.25329 21 11.5 21Z"
-        stroke="currentColor"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth="2"
-      />
-      <path
-        d="M22 22L20 20"
-        stroke="currentColor"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth="2"
-      />
-    </svg>
-  );
-};
-
-export const ChevronDownIcon = ({strokeWidth = 1.5, ...otherProps}) => {
-  return (
-    <svg
-      aria-hidden="true"
-      fill="none"
-      focusable="false"
-      height="1em"
-      role="presentation"
-      viewBox="0 0 24 24"
-      width="1em"
-      {...otherProps}
-    >
-      <path
-        d="m19.92 8.95-6.52 6.52c-.77.77-2.03.77-2.8 0L4.08 8.95"
-        stroke="currentColor"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeMiterlimit={10}
-        strokeWidth={strokeWidth}
-      />
-    </svg>
-  );
-};
-
 const activityColorMap = {
   development: "success",
   meeting: "warning",
   documentation: "primary",
 };
 
-const INITIAL_VISIBLE_COLUMNS = ["startTime", "endTime", "activityType", "project", "actions"];
+const INITIAL_VISIBLE_COLUMNS = ["startTime", "endTime", "activityType", "project", "location", "actions"];
 
 export default function TimeSheetPage() {
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
@@ -283,13 +218,17 @@ export default function TimeSheetPage() {
             {activityOptions.find(opt => opt.uid === cellValue)?.name || cellValue}
           </Chip>
         );
+      case "location": 
+        return (
+          <span className="text-default-600">{cellValue}</span>
+        );
       case "actions":
         return (
           <div className="relative flex justify-end items-center gap-2">
             <Dropdown className="bg-background border-1 border-default-200">
               <DropdownTrigger>
                 <Button isIconOnly radius="full" size="sm" variant="light">
-                  <VerticalDotsIcon className="text-default-400" />
+                  <VerticalDotsIcon className="text-default-400" width={undefined} height={undefined} />
                 </Button>
               </DropdownTrigger>
               <DropdownMenu>
@@ -321,6 +260,76 @@ export default function TimeSheetPage() {
   const topContent = React.useMemo(() => {
     return (
       <div className="flex flex-col gap-4">
+        <div className='block md:flex space-x-5 flex items-center flex-wrap'>
+          <Select
+            className="max-w-xs my-4"
+            classNames={{
+              label: "group-data-[filled=true]:-translate-y-5",
+              trigger: "min-h-12",
+              listboxWrapper: "max-h-[400px]",
+            }}
+            items={users}
+            label="Select an User"
+            listboxProps={{
+              itemClasses: {
+                base: [
+                  "rounded-md",
+                  "text-default-500",
+                  "transition-opacity",
+                  "data-[hover=true]:text-foreground",
+                  "data-[hover=true]:bg-default-100",
+                  "dark:data-[hover=true]:bg-default-50",
+                  "data-[selectable=true]:focus:bg-default-50",
+                  "data-[pressed=true]:opacity-70",
+                  "data-[focus-visible=true]:ring-default-500",
+                ],
+              },
+            }}
+            popoverProps={{
+              classNames: {
+                base: "before:bg-default-200",
+                content: "p-0 border-small border-divider bg-background",
+              },
+            }}
+            renderValue={(items) => {
+              return items.map((item) => (
+                <div key={item.key} className="flex items-center">                  
+                  <div className="flex flex-col">
+                    <span>{item.data.name}</span>                    
+                  </div>
+                </div>
+              ));
+            }}
+            variant="bordered"
+          >
+            {(user) => (
+              <SelectItem key={user.id} textValue={user.name}>
+                <div className="flex gap-2 items-center">                  
+                  <div className="flex flex-col">
+                    <span className="text-small">{user.name}</span>                    
+                  </div>
+                </div>
+              </SelectItem>
+            )}
+          </Select>
+
+          <DateRangePicker 
+            showMonthAndYearPickers 
+            label="Select a date" 
+            variant="bordered" 
+            className="max-w-[284px]"
+          />
+
+          <Button isIconOnly aria-label="Like" className="bg-[#eeeeef]">
+            <RefreshIcon />
+          </Button>
+          
+          <Button isIconOnly aria-label="Like" color='primary'>
+            <SaveIcon />
+          </Button>
+          
+          {/* <DatePicker isRequired variant='faded' className="max-w-[284px]" label="Select a date" /> */}
+        </div>
         <div className="flex justify-between gap-3 items-end">
           <Input
             isClearable
@@ -392,7 +401,7 @@ export default function TimeSheetPage() {
             </Dropdown>
             <Button 
               className="bg-foreground text-background" 
-              endContent={<PlusIcon />} 
+              endContent={<PlusIcon width={undefined} height={undefined} />} 
               size="sm"
               onPress={onOpen}  
             >
@@ -424,6 +433,11 @@ export default function TimeSheetPage() {
                     <Select className="w-full" label="Projects">
                       {projectsOptions.map((project) => (
                         <SelectItem key={project.uid}>{project.name}</SelectItem>
+                      ))}
+                    </Select>
+                    <Select className="w-full my-2" label="Location">
+                      {locationOptions.map((location) => (
+                        <SelectItem key={location.uid}>{location.name}</SelectItem>
                       ))}
                     </Select>                                                                               
                     </ModalBody>
@@ -469,19 +483,7 @@ export default function TimeSheetPage() {
 
   const bottomContent = React.useMemo(() => {
     return (
-      <div className="py-2 px-2 flex justify-between items-center">
-        <Pagination
-          showControls
-          classNames={{
-            cursor: "bg-foreground text-background",
-          }}
-          color="default"
-          isDisabled={hasSearchFilter}
-          page={page}
-          total={pages}
-          variant="light"
-          onChange={setPage}
-        />
+      <div className="py-2 px-2 flex justify-between items-center">        
         <span className="text-small text-default-400">
           {selectedKeys === "all"
             ? "Todos los registros seleccionados"
@@ -523,7 +525,7 @@ export default function TimeSheetPage() {
             }}
             classNames={classNames}
             selectedKeys={selectedKeys}
-            selectionMode="multiple"
+            selectionMode="none"
             sortDescriptor={sortDescriptor}
             topContent={topContent}
             topContentPlacement="outside"

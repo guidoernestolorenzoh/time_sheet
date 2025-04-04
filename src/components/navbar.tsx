@@ -16,14 +16,11 @@ import clsx from "clsx";
 
 import { siteConfig } from "@/config/site";
 import { ThemeSwitch } from "@/components/theme-switch";
-import {
-  TwitterIcon,
-  GithubIcon,
-  DiscordIcon,
-  HeartFilledIcon,
+import {   
   SearchIcon,
 } from "@/components/icons";
-import { Logo } from "@/components/icons";
+import { Image } from "@heroui/react";
+import Logo from "../assets/kurita.svg";
 
 export const Navbar = () => {
   const searchInput = (
@@ -55,9 +52,15 @@ export const Navbar = () => {
             className="flex justify-start items-center gap-1"
             color="foreground"
             href="/"
-          >
-            <Logo />
-            <p className="font-bold text-inherit">ACME</p>
+          >            
+            {/* <Logo />
+            <p className="font-bold text-inherit">Kurita</p> */}
+            <Image
+              src={Logo}
+              height={50}
+              width={50}
+              alt="Logo"
+            />
           </Link>
         </NavbarBrand>
         <div className="hidden lg:flex gap-4 justify-start ml-2">
@@ -82,25 +85,13 @@ export const Navbar = () => {
         className="hidden sm:flex basis-1/5 sm:basis-full"
         justify="end"
       >
-        <NavbarItem className="hidden sm:flex gap-2">
-          <Link isExternal href={siteConfig.links.twitter} title="Twitter">
-            <TwitterIcon className="text-default-500" />
-          </Link>
-          <Link isExternal href={siteConfig.links.discord} title="Discord">
-            <DiscordIcon className="text-default-500" />
-          </Link>
-          <Link isExternal href={siteConfig.links.github} title="GitHub">
-            <GithubIcon className="text-default-500" />
-          </Link>
+        <NavbarItem className="hidden sm:flex gap-2">          
           <ThemeSwitch />
         </NavbarItem>
         <NavbarItem className="hidden lg:flex">{searchInput}</NavbarItem>        
       </NavbarContent>
 
-      <NavbarContent className="sm:hidden basis-1 pl-4" justify="end">
-        <Link isExternal href={siteConfig.links.github}>
-          <GithubIcon className="text-default-500" />
-        </Link>
+      <NavbarContent className="sm:hidden basis-1 pl-4" justify="end">        
         <ThemeSwitch />
         <NavbarMenuToggle />
       </NavbarContent>

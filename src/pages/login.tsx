@@ -24,6 +24,7 @@ import {
   Form,
   Input,
   Button,
+  Image,
 } from "@heroui/react";
 import { useState } from "react";
 
@@ -95,12 +96,12 @@ export default function LoginPage() {
               }}
             >
               <div className="inline-block space-y-5 max-w-lg text-center justify-center">
-                <img 
+                <Image 
                   src={Logo} 
                   height="100"
                   width="100" 
                   alt="Logo" 
-                  className="mx-auto"
+                  className="mx-auto rounded-3xl"
                 />
                 <h1 className={title()}>Login</h1>
                 <p className="font-thin">
