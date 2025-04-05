@@ -26,7 +26,8 @@ import {
   Pagination,
   DatePicker,
   DateRangePicker,
-  Avatar
+  Avatar,
+  Tooltip
 } from "@heroui/react";
 import {parseZonedDateTime, parseAbsoluteToLocal} from "@internationalized/date";
 
@@ -320,13 +321,61 @@ export default function TimeSheetPage() {
             className="max-w-[284px]"
           />
 
-          <Button isIconOnly aria-label="Like" className="bg-[#eeeeef]">
-            <RefreshIcon />
-          </Button>
+          <Tooltip
+            closeDelay={0}
+            content="Refresh"
+            delay={0}
+            motionProps={{
+              variants: {
+                exit: {
+                  opacity: 0,
+                  transition: {
+                    duration: 0.1,
+                    ease: "easeIn",
+                  },
+                },
+                enter: {
+                  opacity: 1,
+                  transition: {
+                    duration: 0.15,
+                    ease: "easeOut",
+                  },
+                },
+              },
+            }}
+          >
+            <Button isIconOnly aria-label="Like" className="bg-[#eeeeef]">
+              <RefreshIcon />
+            </Button>
+          </Tooltip>
           
-          <Button isIconOnly aria-label="Like" color='primary'>
-            <SaveIcon />
-          </Button>
+          <Tooltip
+            closeDelay={0}
+            content="Save"
+            delay={0}
+            motionProps={{
+              variants: {
+                exit: {
+                  opacity: 0,
+                  transition: {
+                    duration: 0.1,
+                    ease: "easeIn",
+                  },
+                },
+                enter: {
+                  opacity: 1,
+                  transition: {
+                    duration: 0.15,
+                    ease: "easeOut",
+                  },
+                },
+              },
+            }}
+          >
+            <Button isIconOnly aria-label="Like" color='primary'>
+              <SaveIcon />
+            </Button>
+          </Tooltip>
           
           {/* <DatePicker isRequired variant='faded' className="max-w-[284px]" label="Select a date" /> */}
         </div>
@@ -399,11 +448,11 @@ export default function TimeSheetPage() {
                 ))}
               </DropdownMenu>
             </Dropdown>
-            <Button 
-              className="bg-foreground text-background" 
+            <Button  
               endContent={<PlusIcon width={undefined} height={undefined} />} 
               size="sm"
               onPress={onOpen}  
+              color='primary'
             >
               Agregar Nuevo
             </Button>
